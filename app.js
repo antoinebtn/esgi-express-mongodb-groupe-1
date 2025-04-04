@@ -15,6 +15,7 @@ const database = async () => {
 database();
 
 const authRoute = require("./routes/auth.route");
+const postRoute = require("./routes/post.route");
 
 //common headers
 app.use((req, res, next) => {
@@ -25,5 +26,6 @@ app.use((req, res, next) => {
 
 
 app.use('/auth', authRoute);
+app.use('/posts', postRoute);
 
 module.exports = app;
