@@ -8,6 +8,28 @@ exports.create = async (req, res) => {
     if (!req.body.text) {
         return res.status(400).json({ message: "Veuillez saisir un texte" });
     }
+
+    // if (!req.body.author) {
+    //     return res.status(400).json({ message: "Veuillez spécifier un auteur" });
+    // }
+
+    const post = new Post({
+        text: req.body.text,
+        author: "0"
+    });
+
+    if (req.image) {
+        post.image = "./uploads/" + req.image.filename;
+    }
+
+    try {
+        await post.save();
+        return res.status(201).json({ message: "Post créé avec succès", post });
+    } catch (error) {
+        return res
+            .status(500)
+            .json({ message: "Erreur lors de la création du post" });
+    }
 };
 
 exports.update = async (req, res) => {
