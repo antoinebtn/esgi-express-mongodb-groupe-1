@@ -15,7 +15,7 @@ exports.create = async (req, res) => {
 
     const post = new Post({
         text: req.body.text,
-        author: "0"
+        author: "0",
     });
 
     if (req.image) {
