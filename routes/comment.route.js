@@ -4,7 +4,7 @@ const AuthMiddleware = require("./../middleware/auth.middleware")
 
 const postController = require("../controller/comment.controller");
 
-router.post("/", AuthMiddleware, postController.create);
+router.post("/posts/:postId", AuthMiddleware, postController.create);
 router.put("/:id", AuthMiddleware, postController.update);
 router.delete("/:id", AuthMiddleware, postController.delete);
 

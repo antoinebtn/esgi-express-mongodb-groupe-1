@@ -1,4 +1,4 @@
-const Comment = require("../model/comment.model.js");
+const Comment = require("./../model/comment.model.js");
 const Post = require("../model/post.model.js");
 
 exports.create = async (req, res) => {
@@ -14,7 +14,8 @@ exports.create = async (req, res) => {
 
         const comment = new Comment({
             content: req.body.content,
-            author: req.token.username
+            author: req.token.username,
+            postId: post._id
         });
 
         await comment.save();
@@ -34,10 +35,10 @@ exports.update = async (req, res) => {
     }
 
     try {
-        const comment = await Comment.findOne({ _id: req.params.commentId, postId: req.params.postId });
+        const comment = await Comment.findOne({ _id: req.params.id });
 
         if (!comment) {
-            return res.status(404).json({ message: "Commentaire non trouvé pour ce post" });
+            return res.status(404).json({ message: "Commentaire non trouvé" });
         }
 
         if (comment.author !== req.token.username) {
@@ -55,7 +56,7 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        const comment = await Comment.findOne({ _id: req.params.commentId, postId: req.params.postId });
+        const comment = await Comment.findOne({ _id: req.params.id });
 
         if (!comment) {
             return res.status(404).json({ message: "Commentaire non trouvé pour ce post" });
@@ -65,9 +66,11 @@ exports.delete = async (req, res) => {
             return res.status(403).json({ message: "Action non autorisée" });
         }
 
+        let postId = comment.postId
+
         await Comment.deleteOne({ _id: req.params.commentId });
 
-        await Post.updateOne({ _id: req.params.postId }, { $pull: { comments: req.params.commentId } });
+        await Post.updateOne({ _id: postId}, { $pull: { comments: req.params.commentId } });
 
         return res.status(200).json({ message: "Commentaire supprimé avec succès" });
     } catch (error) {
