@@ -15,7 +15,7 @@ exports.create = async (req, res) => {
 
     const post = new Post({
         text: req.body.text,
-        author: "0"
+        author: "0",
     });
 
     if (req.image) {
@@ -46,7 +46,7 @@ exports.update = async (req, res) => {
     post.text = req.body.text;
 
     if (req.image) {
-        post.image = "./picture/" + req.image.filename;
+        post.image = "./uploads/" + req.image.filename;
     }
 
     try {
