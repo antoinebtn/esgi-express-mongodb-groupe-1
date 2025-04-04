@@ -1,6 +1,3 @@
-const jwt = require("jsonwebtoken");
-const User = require("./../model/user.model.js");
-const bcrypt = require("bcrypt");
 const Post = require("../model/post.model.js");
 require("dotenv").config();
 
@@ -14,8 +11,8 @@ exports.create = async (req, res) => {
         author: req.token.username,
     });
 
-    if (req.image) {
-        post.image = "./uploads/" + req.image.filename;
+    if (req.file) {
+        post.image = "./uploads/" + req.file.filename;
     }
 
     try {
