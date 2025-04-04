@@ -46,7 +46,7 @@ exports.update = async (req, res) => {
     post.text = req.body.text;
 
     if (req.image) {
-        post.image = "./picture/" + req.image.filename;
+        post.image = "./uploads/" + req.image.filename;
     }
 
     try {
