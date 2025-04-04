@@ -9,13 +9,9 @@ exports.create = async (req, res) => {
         return res.status(400).json({ message: "Veuillez saisir un texte" });
     }
 
-    // if (!req.body.author) {
-    //     return res.status(400).json({ message: "Veuillez spécifier un auteur" });
-    // }
-
     const post = new Post({
         text: req.body.text,
-        author: "0",
+        author: req.token._id,
     });
 
     if (req.image) {
@@ -82,7 +78,7 @@ exports.delete = async (req, res) => {
         if (!post) {
             return res.status(404).json({ error: "Post non trouvé" });
         }
-        if (post.author.toString() !== req.user.id) {
+        if (post.author !== req.token._id) {
             return res.status(403).json({ error: "Action non autorisée" });
         }
 
