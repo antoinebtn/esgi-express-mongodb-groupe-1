@@ -33,11 +33,7 @@ exports.update = async (req, res) => {
         return res.status(400).json({ message: "Veuillez saisir un texte" });
     }
 
-    const post = await Post.findOne({ _id: req.params.id });
-
-    if (!post) {
-        return res.status(404).json({ message: "Post non trouvé" });
-    }
+    const post = req.x_post;
 
     post.text = req.body.text;
 
@@ -74,10 +70,8 @@ exports.getAll = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
-        if (!post) {
-            return res.status(404).json({ error: "Post non trouvé" });
-        }
+        const post = req.x_post;
+
         if (post.author !== req.token.username) {
             return res.status(403).json({ error: "Action non autorisée" });
         }
