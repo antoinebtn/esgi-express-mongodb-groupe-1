@@ -78,7 +78,7 @@ exports.delete = async (req, res) => {
         if (!post) {
             return res.status(404).json({ error: "Post non trouvé" });
         }
-        if (post.author.toString() !== req.user.id) {
+        if (post.author !== req.token._id) {
             return res.status(403).json({ error: "Action non autorisée" });
         }
 
