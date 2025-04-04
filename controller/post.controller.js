@@ -35,13 +35,13 @@ exports.update = async (req, res) => {
             .status(500)
             .json({ message: "Erreur lors de la mise à jour du post" });
     }
-}
+};
 
 exports.getAll = async (req, res) => {
     try {
-        const { page = 1, limit = 10, sort = 'desc' } = req.query;
+        const { page = 1, limit = 10, sort = "desc" } = req.query;
         const postList = await Post.find()
-            .sort({ createdAt: sort === 'desc' ? -1 : 1 })
+            .sort({ createdAt: sort === "desc" ? -1 : 1 })
             .skip((page - 1) * limit)
             .limit(parseInt(limit));
 
