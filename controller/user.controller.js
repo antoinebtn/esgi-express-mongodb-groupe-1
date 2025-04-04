@@ -14,12 +14,16 @@ exports.signin = async (req, res) => {
         return res.status(400).json({ message: "Veuillez saisir un email, un username et un mot de passe" })
     }
 
-    let user = await User.create({
-        email: req.body.email,
-        username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, 10)
-    });
-    res.status(201).json(user);
+    try {
+        let user = await User.create({
+            email: req.body.email,
+            username: req.body.username,
+            password: bcrypt.hashSync(req.body.password, 10)
+        });
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(400).json({ message: "Erreur lors de la création de l'utilisateur" });
+    }
 }
 
 exports.login = async (req, res) => {
