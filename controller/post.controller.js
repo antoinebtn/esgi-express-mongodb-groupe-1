@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
 
     const post = new Post({
         text: req.body.text,
-        author: req.token._id,
+        author: req.token.username,
     });
 
     if (req.image) {
@@ -78,7 +78,7 @@ exports.delete = async (req, res) => {
         if (!post) {
             return res.status(404).json({ error: "Post non trouvé" });
         }
-        if (post.author !== req.token._id) {
+        if (post.author !== req.token.username) {
             return res.status(403).json({ error: "Action non autorisée" });
         }
 
