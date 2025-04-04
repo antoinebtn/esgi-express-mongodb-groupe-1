@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
 
         const comment = new Comment({
             content: req.body.content,
-            author: req.user.id
+            author: req.token.username
         });
 
         await comment.save();
@@ -40,7 +40,7 @@ exports.update = async (req, res) => {
             return res.status(404).json({ message: "Commentaire non trouvé pour ce post" });
         }
 
-        if (comment.author.toString() !== req.user.id) {
+        if (comment.author !== req.token.username) {
             return res.status(403).json({ message: "Action non autorisée" });
         }
 
@@ -61,7 +61,7 @@ exports.delete = async (req, res) => {
             return res.status(404).json({ message: "Commentaire non trouvé pour ce post" });
         }
 
-        if (comment.author !== req.user.id) {
+        if (comment.author !== req.token.username) {
             return res.status(403).json({ message: "Action non autorisée" });
         }
 
