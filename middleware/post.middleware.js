@@ -1,4 +1,4 @@
-const Post = require("../models/post.model");
+const Post = require("../model/post.model");
 
 module.exports = (req, res, next) => {
     if (!req.params.id) {
